@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-// 190min pm04:34
+// 220min pm05:47
 
 public class hw2_applet extends JApplet {
 	public hw2_applet() {
@@ -28,10 +28,10 @@ public class hw2_applet extends JApplet {
 	// deal matrix
 	String Array_BeforeSplit = "";
 	String[] Array_AfterSplit = new String[50];	
-
 	ArrayList<Integer> matrix_int = new ArrayList<Integer>();
-	int matrix_finish[][] = new int[5][5];
 	
+	// matrix (array)
+	int A[][] = new int[5][5];
 	int A2[][] = new int[5][5];
 	int A3[][] = new int[5][5];
 	int A4[][] = new int[5][5];
@@ -52,7 +52,7 @@ public class hw2_applet extends JApplet {
 			case 25:
 				for(int i = 0 ; i < 5 ; i++){
 					for(int j = 0 ; j < 5 ; j++){				
-						matrix_finish[i][j] = matrix_int.get( i * 5 + j );
+						A[i][j] = matrix_int.get( i * 5 + j );
 					}
 				}
 				break;
@@ -60,7 +60,7 @@ public class hw2_applet extends JApplet {
 			case 16:
 				for(int i = 0 ; i < 4 ; i++){
 					for(int j = 0 ; j < 4; j++){				
-						matrix_finish[i][j] = matrix_int.get( i * 4 + j );
+						A[i][j] = matrix_int.get( i * 4 + j );
 					}
 				}
 				break;
@@ -68,7 +68,7 @@ public class hw2_applet extends JApplet {
 			case 9:
 				for(int i = 0 ; i < 3 ; i++){
 					for(int j = 0 ; j < 3; j++){				
-						matrix_finish[i][j] = matrix_int.get( i * 3 + j );
+						A[i][j] = matrix_int.get( i * 3 + j );
 					}
 				}
 				break;
@@ -76,7 +76,7 @@ public class hw2_applet extends JApplet {
 			case 4:
 				for(int i = 0 ; i < 2 ; i++){
 					for(int j = 0 ; j < 2; j++){				
-						matrix_finish[i][j] = matrix_int.get( i * 2 + j );
+						A[i][j] = matrix_int.get( i * 2 + j );
 					}
 				}
 				break;
@@ -86,6 +86,33 @@ public class hw2_applet extends JApplet {
 	// get A2,A3,A4 and sum
 	void calculate(){
 		
+		// calculate A2
+		for(int i = 0 ; i < 5 ; i++){
+			for(int j = 0 ; j < 5 ; j++){
+				A2[i][j] = A[i][0] * A[0][j] + A[i][1] * A[1][j] + A[i][2] * A[2][j] + A[i][3] * A[3][j];
+			}
+		}
+		
+		// calculate A3
+		for(int i = 0 ; i < 5 ; i++){
+			for(int j = 0 ; j < 5 ; j++){
+				A3[i][j] = A2[i][0] * A[0][j] + A2[i][1] * A[1][j] + A2[i][2] * A[2][j] + A2[i][3] * A[3][j];
+			}
+		}
+		
+		// calculate A4
+		for(int i = 0 ; i < 5 ; i++){
+			for(int j = 0 ; j < 5 ; j++){
+				A4[i][j] = A3[i][0] * A[0][j] + A3[i][1] * A[1][j] + A3[i][2] * A[2][j] + A3[i][3] * A[3][j];
+			}
+		}	
+		
+		// calculate sum
+		for(int i = 0 ; i < 5 ; i++){
+			for(int j = 0 ; j < 5 ; j++){
+				sum[i][j] = A[i][j] + A2[i][j] + A3[i][j] + A4[i][j];
+			}
+		}		
 	}
 	
 	public void init(){
@@ -142,10 +169,14 @@ public class hw2_applet extends JApplet {
 		getContentPane().add(paint);
 		
 		
-		
+		// show route
 		JButton show_route = new JButton("\u627E\u51FA\u6240\u6709\u8DEF\u5F91");
 		show_route.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// get start and end node
+				 number_start = Integer.valueOf( textfield_number_start.getText() );
+				 number_end   = Integer.valueOf( textfield_number_end.getText() );
+				
 			}
 		});
 		show_route.setBounds(7, 325, 118, 23);
@@ -156,10 +187,11 @@ public class hw2_applet extends JApplet {
 		JButton show_result = new JButton("\u5217\u51FA\u77E9\u9663\u8A08\u7B97\u7D50\u679C");
 		show_result.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				deal_matrix();
-
-	
+				calculate();
+				
+				textArea_3.setText("");
+				
 			}				
 		});
 		show_result.setBounds(7, 455, 148, 23);
