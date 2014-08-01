@@ -3,19 +3,90 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
+// 190min pm04:34
 
 public class hw2_applet extends JApplet {
+	public hw2_applet() {
+	}
 
-	private JTextField number_start;
-	private JTextField number_end;
+	private JTextField textfield_number_start;
+	private JTextField textfield_number_end;
 	private JTextArea input_matrix = new JTextArea();
 	private JTextArea textArea_1 = new JTextArea();
 	private JTextArea textArea_2 = new JTextArea();
 	private JTextArea textArea_3 = new JTextArea();
 
+	// textfield
+	int number_start;
+	int number_end;
+	
+	// deal matrix
+	String Array_BeforeSplit = "";
+	String[] Array_AfterSplit = new String[50];	
+
+	ArrayList<Integer> matrix_int = new ArrayList<Integer>();
+	int matrix_finish[][] = new int[5][5];
+	
+	int A2[][] = new int[5][5];
+	int A3[][] = new int[5][5];
+	int A4[][] = new int[5][5];
+	int sum[][] = new int[5][5];
+	
+	// turn to array
+	void deal_matrix(){
+		Array_BeforeSplit = input_matrix.getText();	
+		Array_AfterSplit = Array_BeforeSplit.split("[, \n]+");
+		
+		// turn string to int
+		for(int i = 0 ; i < Array_AfterSplit.length ; i++){
+			matrix_int.add( Integer.valueOf( Array_AfterSplit[i] ) );
+		}		
+		
+		// determine size of matrix
+		switch( Array_AfterSplit.length ){
+			case 25:
+				for(int i = 0 ; i < 5 ; i++){
+					for(int j = 0 ; j < 5 ; j++){				
+						matrix_finish[i][j] = matrix_int.get( i * 5 + j );
+					}
+				}
+				break;
+				
+			case 16:
+				for(int i = 0 ; i < 4 ; i++){
+					for(int j = 0 ; j < 4; j++){				
+						matrix_finish[i][j] = matrix_int.get( i * 4 + j );
+					}
+				}
+				break;
+			
+			case 9:
+				for(int i = 0 ; i < 3 ; i++){
+					for(int j = 0 ; j < 3; j++){				
+						matrix_finish[i][j] = matrix_int.get( i * 3 + j );
+					}
+				}
+				break;
+				
+			case 4:
+				for(int i = 0 ; i < 2 ; i++){
+					for(int j = 0 ; j < 2; j++){				
+						matrix_finish[i][j] = matrix_int.get( i * 2 + j );
+					}
+				}
+				break;
+		}		
+	}
+	
+	// get A2,A3,A4 and sum
+	void calculate(){
+		
+	}
 	
 	public void init(){
 		getContentPane().setLayout(null);
@@ -35,15 +106,15 @@ public class hw2_applet extends JApplet {
 		getContentPane().add(label_4);
 		
 		// textfield
-		number_start = new JTextField();
-		number_start.setBounds(104, 297, 96, 21);
-		getContentPane().add(number_start);
-		number_start.setColumns(10);
+		textfield_number_start = new JTextField();
+		textfield_number_start.setBounds(104, 297, 96, 21);
+		getContentPane().add(textfield_number_start);
+		textfield_number_start.setColumns(10);
 		
-		number_end = new JTextField();
-		number_end.setBounds(268, 297, 96, 21);
-		getContentPane().add(number_end);
-		number_end.setColumns(10);
+		textfield_number_end = new JTextField();
+		textfield_number_end.setBounds(268, 297, 96, 21);
+		getContentPane().add(textfield_number_end);
+		textfield_number_end.setColumns(10);
 		
 		// textarea
 		input_matrix.setBounds(55, 60, 327, 87);
@@ -60,6 +131,8 @@ public class hw2_applet extends JApplet {
 		
 		
 		// button
+		
+		// show picture
 		JButton paint = new JButton("\u7E6A\u88FD\u6709\u5411\u5716");
 		paint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,11 +152,15 @@ public class hw2_applet extends JApplet {
 		getContentPane().add(show_route);
 		
 		
-		
+		// show result
 		JButton show_result = new JButton("\u5217\u51FA\u77E9\u9663\u8A08\u7B97\u7D50\u679C");
 		show_result.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			}
+
+				deal_matrix();
+
+	
+			}				
 		});
 		show_result.setBounds(7, 455, 148, 23);
 		getContentPane().add(show_result);
@@ -97,8 +174,8 @@ public class hw2_applet extends JApplet {
 				textArea_1.setText ( "" ) ;			
 				textArea_2.setText ( "" ) ;		
 				textArea_3.setText ( "" ) ;						
-				number_start.setText ( "" );
-				number_end.setText ( "" );
+				textfield_number_start.setText ( "" );
+				textfield_number_end.setText ( "" );
 			}
 		});
 		clear.setBounds(55, 727, 158, 23);
