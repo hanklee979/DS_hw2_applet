@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.awt.Font;
 
 // 220min pm05:47
 
@@ -126,34 +127,42 @@ public class hw2_applet extends JApplet {
 		label_1.setBounds(10, 35, 440, 15);
 		getContentPane().add(label_1);
 		JLabel label_3 = new JLabel("\u8F38\u5165\u8D77\u9EDE\u7DE8\u865F\uFF1A");
-		label_3.setBounds(10, 300, 97, 15);
+		label_3.setBounds(16, 283, 97, 15);
 		getContentPane().add(label_3);
 		JLabel label_4 = new JLabel(" \uFF0C\u7D42\u9EDE\uFF1A");
-		label_4.setBounds(210, 300, 66, 15);
+		label_4.setBounds(216, 283, 66, 15);
 		getContentPane().add(label_4);
 		
 		// textfield
 		textfield_number_start = new JTextField();
-		textfield_number_start.setBounds(104, 297, 96, 21);
+		textfield_number_start.setBounds(110, 280, 96, 21);
 		getContentPane().add(textfield_number_start);
 		textfield_number_start.setColumns(10);
 		
 		textfield_number_end = new JTextField();
-		textfield_number_end.setBounds(268, 297, 96, 21);
+		textfield_number_end.setBounds(274, 280, 96, 21);
 		getContentPane().add(textfield_number_end);
 		textfield_number_end.setColumns(10);
+		input_matrix.setTabSize(6);
+		input_matrix.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		
 		// textarea
-		input_matrix.setBounds(55, 60, 327, 87);
+		input_matrix.setBounds(55, 52, 327, 102);
 		getContentPane().add(input_matrix);
+		textArea_1.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		textArea_1.setTabSize(6);
 		
-		textArea_1.setBounds(55, 190, 327, 87);
+		textArea_1.setBounds(58, 188, 327, 84);
 		getContentPane().add(textArea_1);
+		textArea_2.setTabSize(6);
+		textArea_2.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		
-		textArea_2.setBounds(55, 358, 327, 87);
+		textArea_2.setBounds(58, 328, 327, 87);
 		getContentPane().add(textArea_2);
+		textArea_3.setTabSize(4);
+		textArea_3.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		
-		textArea_3.setBounds(55, 488, 327, 229);
+		textArea_3.setBounds(55, 446, 327, 291);
 		getContentPane().add(textArea_3);
 		
 		
@@ -165,7 +174,7 @@ public class hw2_applet extends JApplet {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		paint.setBounds(7, 157, 105, 23);
+		paint.setBounds(10, 158, 105, 23);
 		getContentPane().add(paint);
 		
 		
@@ -179,7 +188,7 @@ public class hw2_applet extends JApplet {
 				
 			}
 		});
-		show_route.setBounds(7, 325, 118, 23);
+		show_route.setBounds(13, 303, 118, 23);
 		getContentPane().add(show_route);
 		
 		
@@ -190,11 +199,46 @@ public class hw2_applet extends JApplet {
 				deal_matrix();
 				calculate();
 				
-				textArea_3.setText("");
+				// A x A
+				textArea_3.setText("A x A = \n");
+				for(int i = 0 ; i < Math.sqrt(Array_AfterSplit.length) ; i++){
+					for(int j = 0 ; j < Math.sqrt(Array_AfterSplit.length) ; j++){
+						// new line or ,
+						if( j == Math.sqrt(Array_AfterSplit.length) - 1 )
+							textArea_3.setText( textArea_3.getText() + A2[i][j] + "\n");	
+						else
+							textArea_3.setText( textArea_3.getText() + A2[i][j] + "," );								
+					}
+				}
+				
+				// A x A x A
+				textArea_3.setText( textArea_3.getText() + "A x A x A = \n");
+				for(int i = 0 ; i < Math.sqrt(Array_AfterSplit.length) ; i++){
+					for(int j = 0 ; j < Math.sqrt(Array_AfterSplit.length) ; j++){
+						// new line or ,
+						if( j == Math.sqrt(Array_AfterSplit.length) - 1 )
+							textArea_3.setText( textArea_3.getText() + A3[i][j] + "\n");	
+						else
+							textArea_3.setText( textArea_3.getText() + A3[i][j] + "," );								
+					}
+				}				
+				
+				// sum
+				textArea_3.setText( textArea_3.getText() + "\nS = \n");
+				for(int i = 0 ; i < Math.sqrt(Array_AfterSplit.length) ; i++){
+					for(int j = 0 ; j < Math.sqrt(Array_AfterSplit.length) ; j++){
+						// new line or ,
+						if( j == Math.sqrt(Array_AfterSplit.length) - 1 )
+							textArea_3.setText( textArea_3.getText() + sum[i][j] + "\n");	
+						else
+							textArea_3.setText( textArea_3.getText() + sum[i][j] + "," );								
+					}
+				}				
+				
 				
 			}				
 		});
-		show_result.setBounds(7, 455, 148, 23);
+		show_result.setBounds(10, 421, 148, 23);
 		getContentPane().add(show_result);
 		
 		
@@ -210,7 +254,7 @@ public class hw2_applet extends JApplet {
 				textfield_number_end.setText ( "" );
 			}
 		});
-		clear.setBounds(55, 727, 158, 23);
+		clear.setBounds(55, 738, 158, 22);
 		getContentPane().add(clear);
 		
 		
@@ -224,7 +268,7 @@ public class hw2_applet extends JApplet {
 									 + "0,1,0,0"  );			
 			}
 		});
-		create_default.setBounds(262, 727, 120, 23);
+		create_default.setBounds(260, 738, 120, 22);
 		getContentPane().add(create_default);
 
 
